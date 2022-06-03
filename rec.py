@@ -5,11 +5,11 @@ import canaro
 import os
 import cv2 as cv
 import matplotlib.pyplot as plt
-import keras
+#import keras
 from keras.utils import np_utils
 from keras.callbacks import LearningRateScheduler
 import numpy as np
-import scipy
+#import scipy
 
 
 img_size = (80, 80)
@@ -69,9 +69,8 @@ model = canaro.models.createSimpsonsModel(IMG_SIZE=img_size, channels=channels, 
 callbacks_list = [LearningRateScheduler(canaro.lr_schedule)]
 training = model.fit(train_gen, steps_per_epoch = len(x_train)//Batch_size, epochs = Epochs, validation_data = (x_val, y_val), validation_steps = len(y_val)//Batch_size, callbacks = callbacks_list)
 
-test_path = r'dataset\testing\bolt\CDQM20_CQ_M5x35L_20.png'
+test_path = r'dataset\training\washer\washer_noun_002_40578.jpg'
 img = cv.imread(test_path)
-
 
 def prepare(img):
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
