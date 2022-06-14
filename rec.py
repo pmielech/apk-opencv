@@ -1,13 +1,18 @@
-from tkinter import *
-from tkinter.ttk import *
 import numpy as np
 import cv2 as cv
+import sys
 
+userInput = sys.argv
+print(userInput)
 
 def empty():
     pass
 
 def videoCapture():
+    if len(userInput) > 1:
+        filePath = userInput[1]
+        frame = cv.imread(filePath)
+        return frame
     capture = cv.VideoCapture(1)
     isTrue, frame = capture.read()
     return  frame
@@ -26,11 +31,11 @@ def getContours(img, imgContour):
             cv.rectangle(imgContour, (x1, y1), (x1+x2, y1+y2), (0, 255, 0), 5)
             cv.putText(imgContour, "Points: " + str(len(approx)), (x1 + x2 + 20, y1 + y2 + 20), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
             cv.putText(imgContour, "Area: " + str(int(area)), (x1 + x2 + 45, y1 + y2 + 45), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
-            if len(approx) <= 7 and area <= 6000:
+            if len(approx) <= 7 and area <= 6200:
                 cv.putText(imgContour, "Nutt",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
             if (len(approx) <= 7 and area >=17000) or (area > 7000 and len(approx) >= 9):
                 cv.putText(imgContour, "Bolt",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
-            if len(approx) == 8 and (area in range(3200, 14000)):
+            if len(approx) == 8 and (area >= 3150 and area <= 14000):
                 cv.putText(imgContour, "Washer",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
             
 def stackImages(scale,imgArray):
@@ -64,11 +69,8 @@ def stackImages(scale,imgArray):
         ver = hor
     return ver
 
-def back(*args):
-    pass
-
 cv.namedWindow("Main")
-cv.resizeWindow("Main", 640, 240)
+cv.resizeWindow("Main", 420, 80)
 cv.createTrackbar("Threshold1", "Main", 255, 255, empty)
 cv.createTrackbar("Threshold2", "Main", 52, 255, empty)
 
