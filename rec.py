@@ -1,9 +1,8 @@
-from tkinter import Frame
-from cv2 import threshold
+from tkinter import *
+from tkinter.ttk import *
 import numpy as np
 import cv2 as cv
-import time
-import matplotlib.pyplot as plt
+
 
 def empty():
     pass
@@ -12,7 +11,6 @@ def videoCapture():
     capture = cv.VideoCapture(1)
     isTrue, frame = capture.read()
     return  frame
-
 
 def getContours(img, imgContour):
     contours, hierarchy = cv.findContours(img, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
@@ -24,22 +22,17 @@ def getContours(img, imgContour):
             peri = cv.arcLength(x, True)
             approx = cv.approxPolyDP(x, 0.02 * peri, True)
             x1, y1, x2, y2 = cv.boundingRect(approx)   # x, y, w, h
-            #if len(approx) 
-            print("x: " + str(x1+x2))
-            print("y: " + str(y1+y2))
-            print((x1+x2)/(y1+y2))
-            print((y1+y2)/(x1+x2))
+
             cv.rectangle(imgContour, (x1, y1), (x1+x2, y1+y2), (0, 255, 0), 5)
             cv.putText(imgContour, "Points: " + str(len(approx)), (x1 + x2 + 20, y1 + y2 + 20), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
             cv.putText(imgContour, "Area: " + str(int(area)), (x1 + x2 + 45, y1 + y2 + 45), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
-            if len(approx) <= 7 and area > 4500:
+            if len(approx) <= 7 and area <= 6000:
                 cv.putText(imgContour, "Nutt",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
-            if len(approx) >= 6  and area > 7000:
+            if (len(approx) <= 7 and area >=17000) or (area > 7000 and len(approx) >= 9):
                 cv.putText(imgContour, "Bolt",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
-            if len(approx) == 8:
+            if len(approx) == 8 and (area in range(3200, 14000)):
                 cv.putText(imgContour, "Washer",(x1 + x2 + 70, y1 + y2 + 70), cv.FONT_HERSHEY_COMPLEX, .7, (0, 255, 0), 2)
             
-
 def stackImages(scale,imgArray):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -79,12 +72,8 @@ cv.resizeWindow("Main", 640, 240)
 cv.createTrackbar("Threshold1", "Main", 255, 255, empty)
 cv.createTrackbar("Threshold2", "Main", 52, 255, empty)
 
-
-
 while True:
     
-
-    #if butt == True:
     img = videoCapture()
     imgContour = img.copy()
 
@@ -92,7 +81,6 @@ while True:
 
     blurred = cv.GaussianBlur(img, (7,7), 0)
     imgGray = cv.cvtColor(blurred, cv.COLOR_BGR2GRAY)
-
     threshold1 = cv.getTrackbarPos("Threshold1",  "Main")
     threshold2 = cv.getTrackbarPos("Threshold2", "Main")
 
