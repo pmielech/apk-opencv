@@ -78,9 +78,7 @@ while True:
     
     img = videoCapture()
     imgContour = img.copy()
-
-    cv.waitKey(100)
-
+    
     blurred = cv.GaussianBlur(img, (7,7), 0)
     imgGray = cv.cvtColor(blurred, cv.COLOR_BGR2GRAY)
     threshold1 = cv.getTrackbarPos("Threshold1",  "Main")
