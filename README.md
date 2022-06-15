@@ -1,0 +1,3 @@
+# apk-opencv
+Program w języku Python, który na podstawie obrazu rozpozna na nim jeden z obiektów mechanicznych. Elementy są kategoryzowane ze względu na powierzchnie oraz liczbę wierzchołków. Wybranymi elementami są wkręty, nakrętki oraz podkładki. Program działa w dwóch trybach. Podczas wywołania go z terminala bez wejściowych parametrów aktywowany jest tryb „live”, który pobiera obraz z kamery na żywo. Parametrem wejściowym użytkownika jest ścieżka do obrazu, którego chcemy wczytać do programu. Aktywuje to tryb działania na obiekcie statycznym. 
+Element znajdujący się na badawczej płaszczyźnie, po wczytaniu do programu, zostaje poddany obróbce, analizie oraz odpowiedniemu kategoryzowaniu. Na obraz zostają nałożone oraz wyświetlone użytkownikowi informacje o obiekcie.
